@@ -1,97 +1,40 @@
 import "./App.css";
-
 import Card from "./components/Card";
+import api from "./api";
+import { useEffect, useState } from "react";
 
 function App() {
-  const cardData = [
-    {
-      id: crypto.randomUUID(),
-      title: "Güneş Enerjisi",
-      content: `PwC'nin Küresel Risk Araştırması 2023, lider şirketlerin fırsat ve değer yaratma arayışında teknoloji ve verinin dönüştürücü gücünü benimseyerek riske bakış açılarını nasıl değiştirdiklerini ortaya koyuyor.<br/><br/>PwC'nin Küresel Risk Araştırması 2023, lider şirketlerin fırsat ve değer yaratma arayışında teknoloji ve verinin dönüştürücü gücünü benimseyerek riske bakış açılarını nasıl değiştirdiklerini ortaya koyuyor.`,
-      variant: "big",
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Rüzgar Enerjisi",
-      content: `PwC'nin Küresel Risk Araştırması 2023, lider şirketlerin
-fırsat ve değer yaratma arayışında teknoloji ve verinin dönüştürücü
-gücünü benimseyerek riske bakış açılarını nasıl değiştirdiklerini
-ortaya koyuyor.`,
-      variant: "small",
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Nükleer Enerji",
-      content: `Yenilenebilir enerji yatırımlarının artışı, özellikle rüzgar enerjisi alanında küresel enerji talebinin önemli bir kısmını karşılamaya başladı...`,
-      variant: "small",
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Jeotermal Enerji",
-      content: `PwC'nin Küresel Risk Araştırması 2023, lider şirketlerin
-fırsat ve değer yaratma arayışında teknoloji ve verinin dönüştürücü
-gücünü benimseyerek riske bakış açılarını nasıl değiştirdiklerini
-ortaya koyuyor.`,
-      variant: "small",
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Rüzgar Enerjisi",
-      content: `Yenilenebilir enerji yatırımlarının artışı, özellikle rüzgar enerjisi alanında küresel enerji talebinin önemli bir kısmını karşılamaya başladı...`,
-      variant: "small",
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Nükleer Enerji",
-      content: `PwC'nin Küresel Risk Araştırması 2023, lider şirketlerin
-fırsat ve değer yaratma arayışında teknoloji ve verinin dönüştürücü
-gücünü benimseyerek riske bakış açılarını nasıl değiştirdiklerini
-ortaya koyuyor.`,
-      variant: "small",
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Jeotermal Enerji",
-      content: `Yenilenebilir enerji yatırımlarının artışı, özellikle rüzgar enerjisi alanında küresel enerji talebinin önemli bir kısmını karşılamaya başladı...`,
-      variant: "small",
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Rüzgar Enerjisi",
-      content: `PwC'nin Küresel Risk Araştırması 2023, lider şirketlerin
-fırsat ve değer yaratma arayışında teknoloji ve verinin dönüştürücü
-gücünü benimseyerek riske bakış açılarını nasıl değiştirdiklerini
-ortaya koyuyor.`,
-      variant: "small",
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Nükleer Enerji",
-      content: `Yenilenebilir enerji yatırımlarının artışı, özellikle rüzgar enerjisi alanında küresel enerji talebinin önemli bir kısmını karşılamaya başladı...`,
-      variant: "small",
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Jeotermal Enerji",
-      content: `PwC'nin Küresel Risk Araştırması 2023, lider şirketlerin
-fırsat ve değer yaratma arayışında teknoloji ve verinin dönüştürücü
-gücünü benimseyerek riske bakış açılarını nasıl değiştirdiklerini
-ortaya koyuyor.`,
-      variant: "small",
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Nükleer Enerji",
-      content: `Yenilenebilir enerji yatırımlarının artışı, özellikle rüzgar enerjisi alanında küresel enerji talebinin önemli bir kısmını karşılamaya başladı...`,
-      variant: "small",
-    },
-  ];
+  const [cardContent, setCardContent] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+  const fetchData = async () => {
+    try {
+      const response = await api.get("posts");
+      const fetchedData = response.data;
+
+      const updatedData = fetchedData.map((item) => ({
+        ...item,
+        variant: item.id === 1 ? "big" : "small",
+        title: item.title,
+        content: item.body,
+      }));
+
+      setCardContent(updatedData);
+    } catch (error) {
+      console.error("An error occurred while fetching data.", error);
+      setErrorMessage("An error occurred while fetching data.");
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>
+      {errorMessage && <div className="error">{errorMessage}</div>}
       <h1 className="page-header">Sektörel Raporlar</h1>
       <div>
-        {cardData
+        {cardContent
           .filter((item) => item.variant === "big")
           .map((item) => (
             <Card
@@ -104,7 +47,7 @@ ortaya koyuyor.`,
       </div>
 
       <div className="grid-container">
-        {cardData
+        {cardContent
           .filter((item) => item.variant === "small")
           .map((item) => (
             <Card
