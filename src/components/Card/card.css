@@ -43,7 +43,7 @@
   
   .text-container h2 {
     color: rgba(72, 96, 114, 1);
-    overflow: hidden;
+    overflow: overlay;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
@@ -55,6 +55,7 @@
     text-underline-position: from-font;
     text-decoration-skip-ink: none;
   }
+ 
   .text-container span {
     color: rgba(72, 96, 114, 1);
     font-size: 16px;

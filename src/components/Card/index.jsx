@@ -10,11 +10,8 @@ function Card({ variant = "small", title, content }) {
           <h2>{title}</h2>
           <span>22.01.2022</span>
         </div>
-        <p
-          dangerouslySetInnerHTML={{
-            __html: content,
-          }}
-        />
+        
+        <p>{content}</p>
 
         <a href="javascript:void(0)">
           Raporu Göster

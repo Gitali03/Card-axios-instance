@@ -35,26 +35,26 @@ function App() {
       <h1 className="page-header">Sektörel Raporlar</h1>
       <div>
         {cardContent
-          .filter((item) => item.variant === "big")
-          .map((item) => (
+          .filter((bigCard) => bigCard.variant === "big")
+          .map((bigCard) => (
             <Card
-              key={item.id}
-              title={item.title}
-              variant={item.variant}
-              content={item.content}
+              key={bigCard.id}
+              title={bigCard.title}
+              variant={bigCard.variant}
+              content={bigCard.content}
             />
           ))}
       </div>
 
       <div className="grid-container">
         {cardContent
-          .filter((item) => item.variant === "small")
-          .map((item) => (
+          .filter((smallCard) => smallCard.variant === "small")
+          .map((smallCard) => (
             <Card
-              key={item.id}
-              title={item.title}
-              variant={item.variant}
-              content={item.content}
+              key={smallCard.id}
+              title={smallCard.title}
+              variant={smallCard.variant}
+              content={smallCard.content}
             />
           ))}
       </div>
