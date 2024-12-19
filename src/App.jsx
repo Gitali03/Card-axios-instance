@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 function App() {
   const [cardContent, setCardContent] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+
   const fetchData = async () => {
     try {
       const response = await api.get("posts");
@@ -29,26 +30,22 @@ function App() {
     fetchData();
   }, []);
 
+  const bigItem = cardContent.find((item) => item.id === 1);
+  console.log(bigItem);
+
   return (
     <>
       {errorMessage && <div className="error">{errorMessage}</div>}
       <h1 className="page-header">Sektörel Raporlar</h1>
       <div>
-        {cardContent
-          .filter((bigCard) => bigCard.variant === "big")
-          .map((bigCard) => (
-            <Card
-              key={bigCard.id}
-              title={bigCard.title}
-              variant={bigCard.variant}
-              content={bigCard.content}
-            />
-          ))}
+        {bigItem && (
+          <Card variant="big" title={bigItem.title} content={bigItem.content} />
+        )}
       </div>
 
       <div className="grid-container">
         {cardContent
-          .filter((smallCard) => smallCard.variant === "small")
+          .filter(({ variant }) => variant === "small")
           .map((smallCard) => (
             <Card
               key={smallCard.id}
